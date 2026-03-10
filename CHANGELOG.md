@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [0.0.2] - 2026-03-10
+
+### Added
+- MIT license
+- `license` and `repository` fields in `package.json`
+
+### Fixed
+- Release script now creates annotated git tags so they are correctly pushed
+- `.vscodeignore` tightened to exclude dev files and dependency samples from VSIX
+- Automated marketplace publishing via GitHub Actions on release tags
+
 ## [0.0.1] - 2026-03-10
 
 ### Added
