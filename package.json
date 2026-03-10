@@ -3,7 +3,7 @@
   "displayName": "BLP Image Preview",
   "description": "Preview Blizzard .blp texture files in VS Code",
   "publisher": "Pinta365",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.95.0"
@@ -30,7 +30,8 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "release": "node scripts/release.js"
   },
   "devDependencies": {
     "@types/node": "^25.4.0",

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.0.1] - 2026-03-10
+
 ### Added
 - Initial release
 - BLP2 file preview via custom editor
