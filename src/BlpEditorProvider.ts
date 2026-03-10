@@ -35,14 +35,26 @@ export class BlpEditorProvider implements vscode.CustomReadonlyEditorProvider {
 
         try {
             const raw = await fs.promises.readFile(document.uri.fsPath);
-            const { decodeBlpData } = await import("@pinta365/blp");
-            const decoded = decodeBlpData(new Uint8Array(raw));
+            const { decodeBlpData, parseBlpHeader } = await import("@pinta365/blp");
+            const bytes = new Uint8Array(raw);
+            const decoded = decodeBlpData(bytes);
+            const header = parseBlpHeader(bytes);
+
+            const mipCount = header.mipOffsets.filter((o: number) => o > 0).length;
 
             webviewPanel.webview.postMessage({
                 type: "image",
                 width: decoded.width,
                 height: decoded.height,
                 pixels: Array.from(decoded.pixels),
+                meta: {
+                    compression: header.compression,
+                    alphaSize: header.alphaSize,
+                    preferredFormat: header.preferredFormat,
+                    hasMips: header.hasMips,
+                    mipCount,
+                    fileSize: raw.length,
+                },
             });
         } catch (err) {
             webviewPanel.webview.postMessage({
@@ -75,24 +87,29 @@ export class BlpEditorProvider implements vscode.CustomReadonlyEditorProvider {
             flex-direction: column;
             align-items: center;
         }
-        #status {
-            margin-bottom: 12px;
-            font-size: 13px;
-            opacity: 0.7;
-        }
         canvas {
             max-width: 100%;
             image-rendering: pixelated;
             border: 1px solid var(--vscode-panel-border);
         }
+        #meta {
+            margin-top: 12px;
+            font-size: 12px;
+            opacity: 0.7;
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 2px 16px;
+        }
+        #meta dt { font-weight: bold; text-align: right; }
+        #meta dd { margin: 0; }
         #error {
             color: var(--vscode-errorForeground);
         }
     </style>
 </head>
 <body>
-    <div id="status">Loading…</div>
     <canvas id="canvas" style="display:none;"></canvas>
+    <dl id="meta" style="display:none;"></dl>
     <div id="error" style="display:none;"></div>
     <script src="${scriptUri}"></script>
 </body>
