@@ -1,0 +1,44 @@
+{
+  "name": "blp-viewer",
+  "displayName": "BLP Image Preview",
+  "description": "Preview Blizzard .blp texture files in VS Code",
+  "publisher": "Pinta365",
+  "version": "0.0.0",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "blpviewer.preview",
+        "displayName": "BLP Preview",
+        "selector": [
+          {
+            "filenamePattern": "*.blp"
+          }
+        ],
+        "priority": "default"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^25.4.0",
+    "@types/vscode": "^1.95.0",
+    "@vscode/vsce": "^3.7.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@pinta365/blp": "npm:@jsr/pinta365__blp@^0.1.0"
+  }
+}
