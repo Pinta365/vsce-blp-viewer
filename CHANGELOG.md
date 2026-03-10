@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-03-10
+
+### Added
+- Image previews (BLP preview and metadata) in README
+
 ## [0.0.3] - 2026-03-10
 
 ### Added
