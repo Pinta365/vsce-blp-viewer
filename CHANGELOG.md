@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-03-10
+
+### Added
+- Metadata panel in preview showing format, alpha depth, mipmap count, and file size
+- GitHub release notes now include commits since the previous tag
+
+### Changed
+- Replaced simple dimensions status text with a full metadata table below the image
+
 ## [0.0.2] - 2026-03-10
 
 ### Added
