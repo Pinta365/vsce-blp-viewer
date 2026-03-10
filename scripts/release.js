@@ -60,7 +60,7 @@ writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n");
 // --- Git commit + tag + push ---
 run(`git add package.json CHANGELOG.md`);
 run(`git commit -m "chore: release v${next}"`);
-run(`git tag v${next}`);
-run(`git push --follow-tags`);
+run(`git tag -a v${next} -m "v${next}"`);
+run(`git push origin main --follow-tags`);
 
 console.log(`\nTagged and pushed v${next}. GitHub Actions will build the .vsix.`);
