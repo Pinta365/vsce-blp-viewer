@@ -1,7 +1,15 @@
 .vscode/**
+.github/**
 src/**
+scripts/**
 references/**
 tsconfig.json
 .vscodeignore
+.gitignore
+.npmrc
 **/*.map
 **/*.ts
+node_modules/@pinta365/blp/samples/**
+node_modules/@pinta365/blp/deno.json
+node_modules/@pinta365/blp/deno.lock
+node_modules/@pinta365/blp/README.md
