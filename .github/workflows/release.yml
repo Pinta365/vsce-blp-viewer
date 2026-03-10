@@ -13,6 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -24,10 +26,27 @@ jobs:
       - name: Package extension
         run: npx vsce package
 
+      - name: Generate release notes
+        id: notes
+        run: |
+          CURRENT_TAG=${{ github.ref_name }}
+          PREV_TAG=$(git tag --sort=-version:refname | grep -v "^${CURRENT_TAG}$" | head -n 1)
+          if [ -z "$PREV_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s" "$CURRENT_TAG")
+          else
+            COMMITS=$(git log --pretty=format:"- %s" "${PREV_TAG}..${CURRENT_TAG}")
+          fi
+          {
+            echo "commits<<EOF"
+            echo "$COMMITS"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Upload .vsix to release
         uses: softprops/action-gh-release@v2
         with:
           files: "*.vsix"
+          body: ${{ steps.notes.outputs.commits }}
 
       - name: Publish to VS Code Marketplace
         run: npx vsce publish --no-git-tag-version
