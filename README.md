@@ -2,10 +2,15 @@
 
 Preview Blizzard `.blp` texture files directly in VS Code — no external tools required.
 
+<p align="center">
+  <img src="https://cdn.pinta.land/vsce/vsce-blp-viewer1.png" alt="BLP Preview">
+  <img src="https://cdn.pinta.land/vsce/vsce-blp-viewer2.png" alt="BLP Preview Metadata">
+</p>
+
 ## Features
 
 - Opens `.blp` files as image previews automatically
-- Displays image dimensions in the status area
+- Displays image metadata: format, alpha depth, mipmap count, and file size
 - Supports all BLP2 compression formats:
   - **DXT1** — no alpha or 1-bit alpha
   - **DXT3** — explicit 4-bit alpha
