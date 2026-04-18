@@ -4,6 +4,15 @@
 
 ## [0.0.5] - 2026-04-18
 
+### Added
+- BLP1 file support in preview (both JPEG and palettized RAW1 content)
+- BLP version information in the metadata panel
+
+### Changed
+- Updated `@pinta365/blp` dependency to `^0.2.0` to use the new BLP1-capable decoder
+- Metadata mapping now handles both BLP1 and BLP2 header structures
+- README now documents BLP1 and BLP2 support in the feature and format lists
+
 ## [0.0.4] - 2026-03-10
 
 ### Added
