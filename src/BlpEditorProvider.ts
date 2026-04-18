@@ -35,10 +35,11 @@ export class BlpEditorProvider implements vscode.CustomReadonlyEditorProvider {
 
         try {
             const raw = await fs.promises.readFile(document.uri.fsPath);
-            const { decodeBlpData, parseBlpHeader } = await import("@pinta365/blp");
+            const { decodeBlpData, isBLP1Header, parseBlpHeader } = await import("@pinta365/blp");
             const bytes = new Uint8Array(raw);
             const decoded = decodeBlpData(bytes);
             const header = parseBlpHeader(bytes);
+            const blp1 = isBLP1Header(header);
 
             const mipCount = header.mipOffsets.filter((o: number) => o > 0).length;
 
@@ -48,10 +49,12 @@ export class BlpEditorProvider implements vscode.CustomReadonlyEditorProvider {
                 height: decoded.height,
                 pixels: Array.from(decoded.pixels),
                 meta: {
-                    compression: header.compression,
-                    alphaSize: header.alphaSize,
-                    preferredFormat: header.preferredFormat,
-                    hasMips: header.hasMips,
+                    version: header.magic,
+                    content: blp1 ? header.content : undefined,
+                    compression: blp1 ? undefined : header.compression,
+                    alphaBits: blp1 ? header.alphaBitDepth : header.alphaSize,
+                    preferredFormat: blp1 ? undefined : header.preferredFormat,
+                    hasMips: blp1 ? header.hasMipmaps : header.hasMips,
                     mipCount,
                     fileSize: raw.length,
                 },

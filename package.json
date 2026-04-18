@@ -45,6 +45,6 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@pinta365/blp": "npm:@jsr/pinta365__blp@^0.1.0"
+    "@pinta365/blp": "npm:@jsr/pinta365__blp@^0.2.0"
   }
 }

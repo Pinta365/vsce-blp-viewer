@@ -5,7 +5,13 @@ const ctx = canvas.getContext("2d");
 const metaEl = document.getElementById("meta");
 const errorEl = document.getElementById("error");
 
-function formatLabel(compression, alphaSize, preferredFormat) {
+function formatLabel(version, content, compression, alphaBits, preferredFormat) {
+    if (version === "BLP1") {
+        if (content === 0) return "BLP1 JPEG";
+        if (content === 1) return "BLP1 RAW1 (Palettized)";
+        return "BLP1 (Unknown Content)";
+    }
+
     // compression: 1=PALETTE, 2=DXT, 3=ARGB8888
     // preferredFormat: DXT1=0, DXT3=1, DXT5=7, ARGB8888=4, ARGB1555=5, ARGB4444=6
     if (compression === 1) return "RAW1 (Palettized)";
@@ -15,19 +21,19 @@ function formatLabel(compression, alphaSize, preferredFormat) {
         return "RAW3 (ARGB8888)";
     }
     if (compression === 2) {
-        if (alphaSize <= 1) return "DXT1";
+        if (alphaBits <= 1) return "DXT1";
         if (preferredFormat === 1) return "DXT3";
         return "DXT5";
     }
     return "Unknown";
 }
 
-function alphaLabel(alphaSize) {
-    if (alphaSize === 0) return "None";
-    if (alphaSize === 1) return "1-bit";
-    if (alphaSize === 4) return "4-bit";
-    if (alphaSize === 8) return "8-bit";
-    return `${alphaSize}-bit`;
+function alphaLabel(alphaBits) {
+    if (alphaBits === 0) return "None";
+    if (alphaBits === 1) return "1-bit";
+    if (alphaBits === 4) return "4-bit";
+    if (alphaBits === 8) return "8-bit";
+    return `${alphaBits}-bit`;
 }
 
 function fileSizeLabel(bytes) {
@@ -37,11 +43,12 @@ function fileSizeLabel(bytes) {
 }
 
 function renderMeta(width, height, meta) {
-    const { compression, alphaSize, preferredFormat, mipCount, fileSize } = meta;
+    const { version, content, compression, alphaBits, preferredFormat, mipCount, fileSize } = meta;
     const rows = [
         ["Dimensions", `${width} × ${height}`],
-        ["Format", formatLabel(compression, alphaSize, preferredFormat)],
-        ["Alpha", alphaLabel(alphaSize)],
+        ["Version", version],
+        ["Format", formatLabel(version, content, compression, alphaBits, preferredFormat)],
+        ["Alpha", alphaLabel(alphaBits)],
         ["Mipmaps", mipCount > 1 ? `${mipCount} levels` : "None"],
         ["File size", fileSizeLabel(fileSize)],
     ];
